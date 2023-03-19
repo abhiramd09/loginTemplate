@@ -1,0 +1,25 @@
+body{
+  background-color: 	#F0FFFF;
+}
+
+.navbar-brand{
+  color: white;
+  font-size: 35px;
+  font-display: auto;
+  text-align: left;
+}
+
+.fcc-btn{
+  font-size: 18px;
+  color: white;
+
+}
+
+.navbar-expand-lg{
+  background-color: #9370D8;
+}
+
+.footer{
+  font-size: 20px;
+  text-align: bottom;
+}

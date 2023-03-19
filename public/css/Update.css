@@ -1,0 +1,29 @@
+body{
+  background-color: #F0FFFF;
+  font-size: 20px;
+}
+
+.update{
+  text-align: left;
+
+}
+.heading{
+  text-align: left;
+}
+label{
+  display: inline-flex;
+}
+
+.pswd{
+  text-align: center;
+  vertical-align: middle;
+}
+
+.save{
+  align-items: center;
+  text-align: center;
+}
+
+.ID{
+  text-align: center;
+}

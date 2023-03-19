@@ -1,0 +1,22 @@
+html,
+body{
+  height:100%;
+
+}
+
+body{
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+  background-color: #F0FFFF;
+  font-size: 30px;
+}
+
+.container{
+  text-align: center;
+}
+
+.center{
+  padding: 70px 0;
+}
