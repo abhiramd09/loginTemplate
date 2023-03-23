@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mysql = require('mysql');
 const ejs = require("ejs");
 const _ = require("lodash");
+let alert = require('alert');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -40,27 +41,34 @@ app.post("/login.html", function(req, res){
   email = req.body.emailId;
   let password = req.body.password;
   var sql1='SELECT EmailId FROM students';
+  var flag=0;
   con.query(sql1, function (err, result) {
     if (err) throw err;
-    let flag=0;
     for(let i=0; i<result.length; i++){
-      if(email===result[i].EmailId)
+      if(email==result[i].EmailId){
         flag=1;
+        break;
+      }
     }
-    if(!flag)
-      res.redirect("/login.html");
-  });
-  var sql = 'SELECT Password, Name, Id FROM students WHERE EmailId = ?';
-  con.query(sql, [email], function (err, result) {
-    if (err) throw err;
-    name=result[0].Name;
-    Id=result[0].Id;
-    if(result[0].Password === password)
-      res.render("dashboard", {title: name});
-    else {
-      res.redirect("/login.html");
+    if(flag==0){
+      alert("Email is not registered");
     }
   });
+
+  // if(flag){
+    var sql = 'SELECT Password, Name, Id FROM students WHERE EmailId = ?';
+    con.query(sql, [email], function (err, result) {
+      if (err) throw err;
+      name=result[0].Name;
+      Id=result[0].Id;
+      if(result[0].Password === password)
+        res.render("dashboard", {title: name});
+      else {
+        alert("Wrong Password!");
+        res.redirect("/login.html");
+      }
+    });
+// }
 
 })
 
