@@ -13,8 +13,8 @@ app.use(express.static("public"));
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "sGaDsB60!?",
+  user: <username>,
+  password: <password>,
   database: "scheduler"
 });
 
