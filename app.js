@@ -5,11 +5,94 @@ const mysql = require('mysql');
 const ejs = require("ejs");
 const _ = require("lodash");
 let alert = require('alert');
+var MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
+mongoose.connect("mongodb://localhost:27017/scheduler");
+
+// const fruitSchema = new mongoose.Schema({
+//   name: String,
+//   rating: Number,
+//   review: String
+// });
+// const Fruit = mongoose.model("Fruit", fruitSchema);
+
+const userSchema = new mongoose.Schema({
+  int: Number,
+  months: [
+    {
+      int: Number,
+      days: [
+        {
+          int: Number,
+          events:[
+            {
+              startTime: String,
+              endTime: String,
+              mTime: String,
+              text: String
+            }
+          ]
+        }
+      ]
+    }
+  ]
+});
+const TestUser1 = mongoose.model("TestUser1", userSchema);
+
+const user = new TestUser1({
+    "int": 1999,
+    "months": [
+      {
+        "int": 4,
+        "days": [
+          {
+            "int": 28,
+            "events": [
+              {
+                "startTime": "6:00",
+                "endTime": "6:30",
+                "mTime": "pm",
+                "text": "Weirdo was born"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  });
+  user.save();
+
+// TestUser1.find(function(err, result){
+//   if(err)
+//     console.log(err);
+//   else {
+//     console.log(result);
+//   }
+// })
+
+// const fruit = new Fruit({
+//   name: "Apple",
+//   rating: 7,
+//   review: "Pretty solid as a fruit."
+// });
+// fruit.save();
+
 
 const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
+
+// MongoClient.connect(url, function(err, db){
+//   if(err) throw err;
+//   var connect = db.db(dbName);
+//   connect.collection("TestUser1").find({}).toArray(function(err, result){
+//     if(err) throw err;
+//     console.log("Yes");
+//     console.log(result);
+//     db.close();
+//   });
+// });
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -105,6 +188,20 @@ app.post("/UpdateID", function(req, res){
   res.redirect("/profile");
 })
 
+app.post("/dashboard", function(req, res){
+  let date = req.body.date;
+  let sTime = req.body.startTime;
+  let eTime = req.body.endTime;
+  let mm = req.body.mm;
+  let status = req.body.availability;
+  let day = date[0]+date[1];
+  let month = date[3]+date[4];
+  let year = date[6]+date[7]+date[8]+date[9];
+
+
+  res.render("dashboard", {title: name});
+})
+
 
 
 app.get("/", function(req, res){
@@ -126,6 +223,7 @@ app.get("/profile", function(req, res){
 app.get("/dashboard", function(req, res){
   res.render("dashboard", {title: name});
 })
+
 app.get("/UpdatePassword", function(req, res){
   res.render("UpdatePassword");
 })
@@ -133,7 +231,46 @@ app.get("/UpdateID", function(req, res){
   res.render("UpdateID");
 })
 app.get("/calendar", function(req, res){
-  res.render("calendar", {title: name});
+
+  const obj={
+    years: [
+      {
+      "int": 2023,
+      "months": [
+        {
+          "int": 4,
+          "days": [
+            {
+              "int": 28,
+              "events": [
+                {
+                  "startTime": "6:00",
+                  "endTime": "6:30",
+                  "mTime": "pm",
+                  "text": "Weirdo was born"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+  // MongoClient.connect(url).then((client)=>{
+  //   const db = client.db(dbName);
+  //   db.listCollections().toArray(function(err, names){
+  //     if(!err){
+  //       console.log("names");
+  //     }
+  //   });
+  // }).catch((err) => {
+  //   console.log(err.Message);
+  // })
+
+
+  res.render("calendar", {title: name, obj: obj});
 })
 
 app.listen(process.env.PORT || 3000, function(req, res){
