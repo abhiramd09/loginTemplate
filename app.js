@@ -16,66 +16,24 @@ mongoose.connect("mongodb://localhost:27017/scheduler");
 // });
 // const Fruit = mongoose.model("Fruit", fruitSchema);
 
-const userSchema = new mongoose.Schema({
-  int: Number,
-  months: [
-    {
-      int: Number,
-      days: [
-        {
-          int: Number,
-          events:[
-            {
-              startTime: String,
-              endTime: String,
-              mTime: String,
-              text: String
-            }
-          ]
-        }
-      ]
-    }
-  ]
-});
-const TestUser1 = mongoose.model("TestUser1", userSchema);
-
-const user = new TestUser1({
-    "int": 1999,
-    "months": [
-      {
-        "int": 4,
-        "days": [
-          {
-            "int": 28,
-            "events": [
-              {
-                "startTime": "6:00",
-                "endTime": "6:30",
-                "mTime": "pm",
-                "text": "Weirdo was born"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  });
-  user.save();
-
-// TestUser1.find(function(err, result){
-//   if(err)
-//     console.log(err);
-//   else {
-//     console.log(result);
-//   }
-// })
-
 // const fruit = new Fruit({
 //   name: "Apple",
 //   rating: 7,
 //   review: "Pretty solid as a fruit."
 // });
 // fruit.save();
+
+const slotSchema = new mongoose.Schema({
+  name: String,
+  year: Number,
+  month: Number,
+  day: Number,
+  startTime: String,
+  endTime: String,
+  mTime: String,
+  text: String
+});
+const slotAvailability = mongoose.model("slot", slotSchema);
 
 
 const app = express();
@@ -97,7 +55,7 @@ app.use(express.static("public"));
 var con = mysql.createConnection({
   host: "localhost",
   user: <username>,
-  password: <password>,
+  password: <password>",
   database: "scheduler"
 });
 
@@ -198,6 +156,17 @@ app.post("/dashboard", function(req, res){
   let month = date[3]+date[4];
   let year = date[6]+date[7]+date[8]+date[9];
 
+  const user = new slotAvailability({
+    name: name,
+    year: +year,
+    month: +month,
+    day: +day,
+    startTime: sTime,
+    endTime: eTime,
+    mTime: mm,
+    text: name+" is "+status
+  });
+  user.save();
 
   res.render("dashboard", {title: name});
 })
@@ -227,9 +196,11 @@ app.get("/dashboard", function(req, res){
 app.get("/UpdatePassword", function(req, res){
   res.render("UpdatePassword");
 })
+
 app.get("/UpdateID", function(req, res){
   res.render("UpdateID");
 })
+
 app.get("/calendar", function(req, res){
 
   const obj={
@@ -268,6 +239,12 @@ app.get("/calendar", function(req, res){
   // }).catch((err) => {
   //   console.log(err.Message);
   // })
+
+  var sql = "SELECT * FROM students";
+  con.query(sql, function(err, result){
+    if(err) throw err;
+    let userName=result
+  })
 
 
   res.render("calendar", {title: name, obj: obj});
