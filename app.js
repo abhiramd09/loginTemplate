@@ -8,6 +8,7 @@ let alert = require('alert');
 var MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:27017/scheduler");
+var conn = mongoose.connection;
 
 // const fruitSchema = new mongoose.Schema({
 //   name: String,
@@ -54,8 +55,8 @@ app.use(express.static("public"));
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: <username>,
-  password: <password>",
+  user: "root",
+  password: "sGaDsB60!?",
   database: "scheduler"
 });
 
@@ -202,7 +203,8 @@ app.get("/UpdateID", function(req, res){
 })
 
 app.get("/calendar", function(req, res){
-
+  let dbCollection;
+  let jsonObj;
   const obj={
     years: [
       {
@@ -239,11 +241,24 @@ app.get("/calendar", function(req, res){
   // }).catch((err) => {
   //   console.log(err.Message);
   // })
+  slotAvailability.find().then((result)=>{
+    dbCollection=result;
+  }).catch((err)=>{
+    console.log(err);
+  })
 
-  var sql = "SELECT * FROM students";
+  var sql = "SELECT Name FROM students";
   con.query(sql, function(err, result){
     if(err) throw err;
-    let userName=result
+    for(let i=0; i<result.length; i++){
+      break;
+      let userName = result[i].Name;
+      slotAvailability.find({name: userName}).then((result)=>{
+        console.log(result);
+      }).catch((err)=>{
+        console.log(err);
+      })
+    }
   })
 
 

@@ -7,6 +7,8 @@ body{
   font-size: 35px;
   font-display: auto;
   text-align: left;
+  position: relative;
+  right: 70%;
 }
 
 .fcc-btn{
@@ -16,10 +18,10 @@ body{
 }
 
 .navbar-expand-lg{
-  background-color: #9370D8;
+  background-color: #5D3891;
 }
 
 .footer{
-  font-size: 20px;
+  font-size: 0px;
   text-align: bottom;
 }
