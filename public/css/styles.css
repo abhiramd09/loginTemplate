@@ -16,7 +16,10 @@ body{
   color: white;
 
 }
-
+.buttons{
+  position: relative;
+  left: 20%;
+}
 .navbar-expand-lg{
   background-color: #5D3891;
 }
