@@ -56,7 +56,7 @@ app.use(express.static("public"));
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: <password>,
+  password: "password",
   database: "scheduler"
 });
 
