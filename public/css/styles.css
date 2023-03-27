@@ -8,7 +8,7 @@ body{
   font-display: auto;
   text-align: left;
   position: relative;
-  right: 70%;
+  right: 75%;
 }
 
 .fcc-btn{
@@ -18,7 +18,7 @@ body{
 }
 .buttons{
   position: relative;
-  left: 20%;
+  left: 18%;
 }
 .navbar-expand-lg{
   background-color: #5D3891;

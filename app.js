@@ -205,8 +205,8 @@ app.get("/UpdateID", function(req, res){
 app.get("/calendar", function(req, res){
   let dbCollection;
   let jsonObj;
-  const obj={
-    years: [
+  var obj={
+    "years": [
       {
       "int": 2023,
       "months": [
@@ -242,27 +242,123 @@ app.get("/calendar", function(req, res){
   //   console.log(err.Message);
   // })
   slotAvailability.find().then((result)=>{
-    dbCollection=result;
+    let k=0, i=0, yearFlag=0, monthFlag=0, dayFlag=0;
+    let yearsArray = obj.years;
+    while(k<result.length){
+      for(let i=0; i<yearsArray.length; i++){
+        if(yearFlag)
+          break;
+        if(result[k].year==yearsArray[i].int){
+          yearFlag=1;
+          let monthsArray = yearsArray[i].months;
+          // console.log(monthsObj);
+          for(let j=0; j<monthsArray.length; j++){
+            if(monthFlag)
+              break;
+            if(result[k].month==monthsArray[j].int){
+              monthFlag=1;
+              let daysArray = monthsArray[j].days;
+              // console.log(daysArray);
+              for(let l=0; l<daysArray.length; l++){
+                if(dayFlag)
+                  break;
+                if(result[k].day == daysArray[l].int){
+                  dayFlag=1;
+                  var tempObj = {
+                    "startTime": result[k].startTime,
+                    "endTime": result[k].endTime,
+                    "mTime": result[k].mTime,
+                    "text": result[k].text
+                  };
+                  obj.years[i].months[j].days[l].events.push(tempObj);
+                }
+                else if(l==daysArray.length-1){
+                  var tempObj = {
+                    "int": result[k].day,
+                    "events": [
+                      {
+                        "startTime": result[k].startTime,
+                        "endTime": result[k].endTime,
+                        "mTime": result[k].mTime,
+                        "text": result[k].text
+                      }
+                    ]
+                  }
+                  obj.years[i].months[j].days.push(tempObj);
+                  break;
+                }
+              }
+            }
+            else if(j==monthsArray.length -1 ){
+              var tempObj = {
+                "int": result[k].month,
+                "days": [
+                  {
+                    "int": result[k].day,
+                    "events": [
+                      {
+                        "startTime": result[k].startTime,
+                        "endTime": result[k].endTime,
+                        "mTime": result[k].mTime,
+                        "text": result[k].text
+                      }
+                    ]
+                  }
+                ]
+              }
+              obj.years[i].months.push(tempObj);
+              break;
+            }
+
+          }
+        }
+        else if(i==yearsArray.length-1){
+              const tempObj = {
+              "int": result[k].year,
+              "months": [
+                {
+                  "int": result[k].month,
+                  "days": [
+                    {
+                      "int": result[k].day,
+                      "events": [
+                        {
+                          "startTime": result[k].startTime,
+                          "endTime": result[k].endTime,
+                          "mTime": result[k].mTime,
+                          "text": result[k].text
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            obj.years.push(tempObj);
+            break;
+        }
+
+      }
+
+      yearFlag=0; monthFlag=0; dayFlag=0;
+      k++;
+    }
+    res.render("calendar", {title: name, obj: obj});
   }).catch((err)=>{
     console.log(err);
   })
+  // var sql = "SELECT Name FROM students";
+  // con.query(sql, function(err, result){
+  //   if(err) throw err;
+  //   for(let i=0; i<result.length; i++){
+  //     break;
+  //     let userName = result[i].Name;
+  //
+  //   }
+  // })
 
-  var sql = "SELECT Name FROM students";
-  con.query(sql, function(err, result){
-    if(err) throw err;
-    for(let i=0; i<result.length; i++){
-      break;
-      let userName = result[i].Name;
-      slotAvailability.find({name: userName}).then((result)=>{
-        console.log(result);
-      }).catch((err)=>{
-        console.log(err);
-      })
-    }
-  })
+// console.log(obj.years[i].months.length);
 
-
-  res.render("calendar", {title: name, obj: obj});
 })
 
 app.listen(process.env.PORT || 3000, function(req, res){
