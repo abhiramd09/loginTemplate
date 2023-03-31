@@ -4,22 +4,31 @@
 
 <h1>Mark Your Availability</h1>
 <br>
-  <form class="" action="/dashboard" method="post">
-    <label for="Year"> Enter date in the format DD/MM/YYYY</label>
-    <input type="text" id="year" name="date">
+  <form class="availability-form" action="/dashboard" method="post">
+    <label for="Year"> Choose a date</label>
+    <input type="date" id="year" name="date">
 
-    <label for="slot"> Enter Start Time </label>
-    <input type="text" id="time" name="startTime">
+    <label for="slot"> Select a start time </label>
+    <input type="time" id="time" name="startTime">
 
-    <label for="slot"> Enter End Time </label>
-    <input type="text" id="time" name="endTime">
+    <label for="slot"> Select a End Time </label>
+    <input type="time" id="time" name="endTime">
 
     <label for="slot"> Forenoon or Afternoon (AM or PM) </label>
-    <input type="text" id="time" name="mm">
+    <select class="session" name="mm">
+      <option value="AM">AM</option>
+      <option value="PM">PM</option>
+    </select>
 
-    <label for="Availability"> Enter your Availability (Available or NotAvailable)</label>
-    <input type="text" id="availability" name="availability">
-
+    <label for="Availability"> Select your Status</label>
+    <select class="status" name="availability">
+      <option value="availabe">Available</option>
+      <option value="not available">Not Available</option>
+      <option value="having a class">Having a class</option>
+      <option value="in a meeting">In a meeting</option>
+      <option value="in outstation">In outstation</option>
+    </select>
+    <br>
     <div>
 
       <input type="submit" name ="save" value="Save">

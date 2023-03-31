@@ -56,7 +56,7 @@ app.use(express.static("public"));
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "password",
+  password: <password>,
   database: "scheduler"
 });
 
@@ -127,8 +127,8 @@ app.post("/profile", function(req, res){
 })
 
 app.post("/UpdatePassword", function(req, res){
-  let oldPswd = req.body.Oldpassword;
-  let newPswd = req.body.Newpassword;
+  let oldPswd = req.body.oldPswd;
+  let newPswd = req.body.newPswd;
   var sql = 'UPDATE students SET Password = ? WHERE Id = ?';
   con.query(sql, [newPswd, Id], function (err, result) {
     if (err) throw err;
@@ -138,13 +138,14 @@ app.post("/UpdatePassword", function(req, res){
 
 app.post("/UpdateID", function(req, res){
   let newId = req.body.NewId;
+  let oldId = req.body.OldId;
   console.log(newId);
-  var sql = 'UPDATE students SET Id = ? WHERE Name = ?';
-  con.query(sql, [newId, name], function (err, result) {
+  var sql = 'UPDATE students SET Id = ? WHERE Id = ?';
+  con.query(sql, [newId, oldId], function (err, result) {
     if (err) throw err;
   });
   Id=newId;
-  res.redirect("/profile");
+  res.render("profile", {title: name, name:name, email:email, id:Id});
 })
 
 app.post("/dashboard", function(req, res){
@@ -153,9 +154,9 @@ app.post("/dashboard", function(req, res){
   let eTime = req.body.endTime;
   let mm = req.body.mm;
   let status = req.body.availability;
-  let day = date[0]+date[1];
-  let month = date[3]+date[4];
-  let year = date[6]+date[7]+date[8]+date[9];
+  let day = date[8]+date[9];
+  let month = date[5]+date[6];
+  let year = date[0]+date[1]+date[2]+date[3];
 
   const user = new slotAvailability({
     name: name,
@@ -187,7 +188,7 @@ app.get("/siginup.html", function(req, res){
 })
 
 app.get("/profile", function(req, res){
-  res.render("profile", {title: name, name:name, email:email, id:Id });
+  res.render("profile", {title: name, name:name, email:email, id: Id});
 })
 
 app.get("/dashboard", function(req, res){
@@ -195,11 +196,11 @@ app.get("/dashboard", function(req, res){
 })
 
 app.get("/UpdatePassword", function(req, res){
-  res.render("UpdatePassword");
+  res.render("UpdatePassword", {title: name, name: name});
 })
 
 app.get("/UpdateID", function(req, res){
-  res.render("UpdateID");
+  res.render("UpdateID", {title: name, name:name, id:Id });
 })
 
 app.get("/calendar", function(req, res){

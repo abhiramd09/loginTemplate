@@ -10,7 +10,7 @@ body {
       font-weight: bold;
       margin-top: 10px;
     }
-    input[type="text"], input[type="email"] {
+    input[type="text"], input[type="email"], input[type="password"] {
       padding: 5px;
       font-size: 20px;
       width: 50%;

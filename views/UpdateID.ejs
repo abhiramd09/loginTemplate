@@ -1,15 +1,17 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/Update.css">
+<%- include("partials/header") -%>
+<link href="css/profile.css" rel="stylesheet">
 
-<form class="update" action="/UpdateID" method="post">
+<h1><%= name %>'s Profile</h1>
+  <form class="" action="/UpdateID" method="post">
 
-<div class="ID">
-  <br>
-  <label for="id">New Id:</label>
-  <input type="text" id="id" name="NewId">
-</div>
-<br>
-  <div class="save">
-    <input type="submit" name ="save" value="Update ID">
-  </div>
-</form>
+    <label for="text">Old Id:</label>
+    <input type="text" id="id" name="OldId" value=<%= id%>>
+
+    <label for="text">New Id:</label>
+    <input type="text" id="id" name="NewId" >
+
+    <div>
+      <input type="submit" name ="save" value="Update ID">
+    </div>
+
+  </form>
