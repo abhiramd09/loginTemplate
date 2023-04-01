@@ -10,20 +10,6 @@ const mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:27017/scheduler");
 var conn = mongoose.connection;
 
-// const fruitSchema = new mongoose.Schema({
-//   name: String,
-//   rating: Number,
-//   review: String
-// });
-// const Fruit = mongoose.model("Fruit", fruitSchema);
-
-// const fruit = new Fruit({
-//   name: "Apple",
-//   rating: 7,
-//   review: "Pretty solid as a fruit."
-// });
-// fruit.save();
-
 const slotSchema = new mongoose.Schema({
   name: String,
   year: Number,
@@ -34,6 +20,7 @@ const slotSchema = new mongoose.Schema({
   mTime: String,
   text: String
 });
+
 const slotAvailability = mongoose.model("slot", slotSchema);
 
 
@@ -41,17 +28,6 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
-
-// MongoClient.connect(url, function(err, db){
-//   if(err) throw err;
-//   var connect = db.db(dbName);
-//   connect.collection("TestUser1").find({}).toArray(function(err, result){
-//     if(err) throw err;
-//     console.log("Yes");
-//     console.log(result);
-//     db.close();
-//   });
-// });
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -94,10 +70,10 @@ app.post("/login.html", function(req, res){
     }
     if(flag==0){
       alert("Email is not registered");
+      res.redirect("/login.html");
     }
   });
 
-  // if(flag){
     var sql = 'SELECT Password, Name, Id FROM students WHERE EmailId = ?';
     con.query(sql, [email], function (err, result) {
       if (err) throw err;
@@ -110,8 +86,6 @@ app.post("/login.html", function(req, res){
         res.redirect("/login.html");
       }
     });
-// }
-
 })
 
 app.post("/profile", function(req, res){
