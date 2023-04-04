@@ -1,21 +1,13 @@
 <%- include("partials/header") -%>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link rel="stylesheet" href="/css/calendar.css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 
 <div class="wrapper">
   <div id="calendarContainer"></div>
   <div id="organizerContainer" style="margin-left: 10px;"></div>
 </div>
-<!-- <p>This is a more of a schedule type calendar for a website. Thought I'd share it here... So made it a library! ( that's why I didn't add an indicator that there's events in a specific day... If you have any suggestion for that though, let me know; I might end up using it )</p> -->
-<script>
-    /*
-Full tutorial on how to use the Calendar Javascript Library
 
-https://github.com/nizarmah/calendar-javascript-lib/blob/master/README.md
-*/
+<script>
 
 function Calendar(id, size, labelSettings, colors) {
   this.id = id;
@@ -376,18 +368,12 @@ Organizer.prototype.setOnClickListener = function (theCase, backCallback, nextCa
   }
 };
 
-// end of library
-// full tutorial on how to use it is on GitHub
-// https://github.com/nizarmah/Calendar-Javascript-Library/blob/master/README.md
 
-/* end of library; everything is explained below; i'm sorry for the messy code and my bad practices; please criticise me */
-
-var calendar = new Calendar("calendarContainer", "small", [ "Wednesday", 3 ], [ "#e91e63", "#c2185b", "#ffffff", "#f8bbd0" ]);
+var calendar = new Calendar("calendarContainer", "small", [ "Wednesday", 3 ], [ "#3282B8", "#0F4C75", "#ffffff", "#ffffff" ]);
 var organizer = new Organizer("organizerContainer", calendar);
 
 currentDay = calendar.date.getDate(); // used this in order to make anyday today depending on the current today
 
-// my best way of organizing data, maybe that can be the outcome of joining multiple tables in the database and then parsing them in such a manner, easier for the person to push use a date and the events of it
 
 // data = {
 //   years: [

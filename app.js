@@ -183,7 +183,7 @@ app.get("/calendar", function(req, res){
   var obj={
     "years": [
       {
-      "int": 2023,
+      "int": 2025,
       "months": [
         {
           "int": 4,
@@ -226,7 +226,6 @@ app.get("/calendar", function(req, res){
         if(result[k].year==yearsArray[i].int){
           yearFlag=1;
           let monthsArray = yearsArray[i].months;
-          // console.log(monthsObj);
           for(let j=0; j<monthsArray.length; j++){
             if(monthFlag)
               break;
@@ -322,17 +321,6 @@ app.get("/calendar", function(req, res){
   }).catch((err)=>{
     console.log(err);
   })
-  // var sql = "SELECT Name FROM students";
-  // con.query(sql, function(err, result){
-  //   if(err) throw err;
-  //   for(let i=0; i<result.length; i++){
-  //     break;
-  //     let userName = result[i].Name;
-  //
-  //   }
-  // })
-
-// console.log(obj.years[i].months.length);
 
 })
 
